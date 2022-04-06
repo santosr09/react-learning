@@ -1,0 +1,20 @@
+[
+  {
+    "id":"1",
+    "title":"Car Insurance",
+    "amount":"149.50",
+    "date": "2022-04-01T19:15:43.511Z"
+  },
+  {
+    "id":"2",
+    "title":"Dental Insurance",
+    "amount":"220.70",
+    "date": "2022-04-02T11:20:43.511Z"
+  },
+  {
+    "id":"3",
+    "title":"Groseries",
+    "amount":"369.00",
+    "date": "2022-04-07T18:25:43.511Z"
+  }
+]
