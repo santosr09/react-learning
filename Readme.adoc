@@ -1,0 +1,62 @@
+REACT - Learning and issues.
+===========
+:toc:
+
+== Learned:
+* How to create and use custom React components.
+* Splitting components
+* Using different syntax to create JS functions
+* Formatting dates from JSON 
+* Fetching data from a JSON file
+* Passing data via props
+
+== KNOWLEDGE BASE
+
+=== .PROBLEM:
+Uncaught TypeError: items.map is not a function
+
+.CONTEXT:
+[source]
+----
+const Expenses = (items) => {
+
+  return (
+    <div className="expenses">
+      {items.map((item) => (
+        <ExpenseItem
+----
+		
+.SOLUTION:
+I was trying to use the object passed("values") instead the array("items[]") inside such object(values.items)
+
+[source]
+----
+const Expenses = (values) => {  
+
+  return (
+    <div className="expenses">
+      {values.items.map((item) => (
+        <ExpenseItem
+----
+
+=== .PROBLEM:
+date.getFullYear is not a Function
+
+.CONTEXT:
+[source]
+----
+function ExpenseDate(date) {
+  const year = date.getFullYear();
+  const month = date.toLocaleString('en-US', {month: 'long'});
+----
+		
+.SOLUTION:
+The date param is not recognized as a Date object.
+
+[source]
+----
+function ExpenseDate(strDate) {
+  const date = new Date(strDate.date);
+  const year = date.getFullYear();
+  const month = date.toLocaleString('en-US', {month: 'long'});
+----
