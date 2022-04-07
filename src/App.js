@@ -4,6 +4,7 @@ import ITEMS from './dummy-data.json'
 
 import logo from './logo.svg';
 import './App.css';
+import NewExpense from './components/NewExpense/NewExpense';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           Learn React
         </a>
       </header>
+      <NewExpense />
       <Expenses items={ITEMS}/>
     </div>
   );
