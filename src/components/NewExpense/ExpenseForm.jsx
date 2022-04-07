@@ -4,18 +4,18 @@ import './ExpenseForm.css';
 const ExpenseForm = () => {
 
   // Managing state using multiple states.
-/*   const [enteredTitle, setEnteredTitle] = useState("");
+  const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredAmount, setEnteredAmount] = useState("");
-  const [enteredDate, setEnteredDate] = useState(""); */
+  const [enteredDate, setEnteredDate] = useState("");
 
 
   /* You can use one state instead multiple states, using object and spread operator to update the state.
   Initializing the state */
-  const [userInput, setUserInput] = useState({
+  /* const [userInput, setUserInput] = useState({
     enteredTitle: "",
     enteredAmount: "",
     enteredDate: ""
-  });
+  }); */
 
   const titleChangeHandler = (event) => {
 
@@ -30,27 +30,34 @@ const ExpenseForm = () => {
     // Use this syntax to avoid working with old state when dependeing on previous states.
     // setUserInput( () => {} );
     
-    setUserInput( (prevState) => {
+    /* setUserInput( (prevState) => {
       return {
         ...prevState,
         enteredTitle: event.target.value
       }
-    } );
+    } ); */
 
   };
 
   const amountChangeHandler = (event) => {
-    setUserInput({
+
+    setEnteredAmount(event.target.value);
+    
+    /* setUserInput({
       enteredAmount: event.target.value,
       ...userInput
-    });
+    }); */
   };
 
   const dateChangeHandler = (event) => {
-    setUserInput({
+
+    setEnteredDate(event.target.value);
+
+    /* setUserInput({
       enteredDate: event.target.value,
       ...userInput
-    });
+    }); */
+
   };
 
   return (
