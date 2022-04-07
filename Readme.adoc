@@ -188,3 +188,35 @@ const ExpenseForm = () => {
 
 }
 ----
+
+== State and Event handling
+*Moving data from a Child to a Parent component* by utilizing props to receive a function from the parent component which we calle in the child component.
+
+
+=== Handling form submission _Prenventing default event_
+
+When submitting a form, by default it reload the page, to avoid this we should prevent the defauilt behaivor of the submit form
+[source]
+----
+  const submitHandler = (event) => {
+    event.preventDefault();
+
+  }
+
+  return (
+    <form onSubmit={submitHandler}>
+----
+
+=== Two-way Binding
+For inputs we don't just listen to changes but we can also pass a new value back into the input, we can reset the input programmatically
+This Two-way binding is made by adding the attribute "value" to the input: _<input type="text" value={enteredTitle} onChange={titleChangeHandler} />_
+
+=== Child-to-parent component communication(Bottom-up)
+We can create our own cutom attributes for each cutom component, such attribute will recive a function that will be triggered when something happens inside of the component.
+Pass a pointer at a function. Such function will be executed on the custom component.
+
+== Lifting State Up 
+*Moving data from child component to a parent component*
+We don't have direct connection between two sibling components, We can only communicate from parent to child and viceversa
+We could utilize the closest parent component which has direct or inderect access to both involved components 
+Lifting the state up -> passing data up to some parent component and then pass thata data down to another component via props.

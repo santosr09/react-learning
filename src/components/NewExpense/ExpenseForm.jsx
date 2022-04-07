@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import './ExpenseForm.css';
 
-const ExpenseForm = () => {
+const ExpenseForm = (props) => {
 
   // Managing state using multiple states.
   const [enteredTitle, setEnteredTitle] = useState("");
@@ -18,6 +18,8 @@ const ExpenseForm = () => {
   }); */
 
   const titleChangeHandler = (event) => {
+
+    setEnteredTitle(event.target.value);
 
     /* When you update state that depends on previous state you should set the new state by passing a function. 
     This due to the fact that React schedule the updating for the state, so you could be working with old states. */
@@ -60,20 +62,37 @@ const ExpenseForm = () => {
 
   };
 
+  const submitHandler = (event) => {
+    event.preventDefault();
+
+    const expenseData = {
+      title: enteredTitle,
+      amount: enteredAmount,
+      date: new Date(enteredDate)
+    };
+    
+    props.onSaveExpenseData(expenseData);
+    setEnteredTitle("");
+    setEnteredAmount("");
+    setEnteredDate("");
+    console.log(expenseData);
+
+  }
+
   return (
-    <form>
+    <form onSubmit={submitHandler}>
       <div className="new-expense__controls">
         <div className="new-expense__control">
           <label>Title</label>
-          <input type="text" onChange={titleChangeHandler} />
+          <input type="text" value={enteredTitle} onChange={titleChangeHandler} />
         </div>
         <div className="new-expense__control">
           <label>Amount</label>
-          <input type="number" min="0.01" step="0.01" onChange={amountChangeHandler} />
+          <input type="number" min="0.01" step="0.01" value={enteredAmount} onChange={amountChangeHandler} />
         </div>
         <div className="new-expense__control">
           <label>Date</label>
-          <input type="date" min="2022-04-01" onChange={dateChangeHandler} />
+          <input type="date" min="2022-04-01" value={enteredDate} onChange={dateChangeHandler} />
         </div>
       </div>
       <div className="new-expense__actions">
