@@ -1,5 +1,4 @@
 = REACT - Learning and issues.
-:toc:
 
 == Learned:
 * How to create and use custom React components.
