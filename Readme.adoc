@@ -1,0 +1,190 @@
+= REACT basics.
+
+== Custom components
+* How to create and use custom React components.
+* Splitting components
+* Using different syntax to create JS functions
+* Formatting dates from JSON 
+* Fetching data from a JSON file
+* Passing data via props
+
+== KNOWLEDGE BASE
+
+=== PROBLEM:
+*_Uncaught TypeError: items.map is not a function_*
+
+.CONTEXT:
+[source]
+----
+const Expenses = (items) => {
+
+  return (
+    <div className="expenses">
+      {items.map((item) => (
+        <ExpenseItem
+----
+		
+.SOLUTION:
+I was trying to use the object passed("values") instead the array("items[]") inside such object(values.items)
+
+[source]
+----
+const Expenses = (values) => {  
+
+  return (
+    <div className="expenses">
+      {values.items.map((item) => (
+        <ExpenseItem
+----
+
+=== PROBLEM:
+*_date.getFullYear is not a Function_*
+
+.CONTEXT:
+[source]
+----
+function ExpenseDate(date) {
+  const year = date.getFullYear();
+  const month = date.toLocaleString('en-US', {month: 'long'});
+----
+		
+.SOLUTION:
+The date param is not recognized as a Date object.
+
+[source]
+----
+function ExpenseDate(strDate) {
+  const date = new Date(strDate.date);
+  const year = date.getFullYear();
+  const month = date.toLocaleString('en-US', {month: 'long'});
+----
+
+== Using states
+The component function(In React each component is a function) is not call a second time after the initial rendering just because a click occure or a variable changes DOES NOT TRIGGER THIS COMPONENT FUNCTION TO RUN AGAIN.
+
+To tell React that it should run it again we should use the function from React: useState
+*usesState allows to define values as state, where changes to those values should reflect in the component function being called again*
+
+[source]
+----
+// Importing function useState() from React, as a named function ({namedFucntion})
+import { useState } from 'react'
+----
+
+useState is a *React Hook*, all the Hooks must be called only inside of React component functions; they can Not be called outside of these functions. Neither can't be called inside nested functions, just directly inside such component function.
+
+useState requires a DEFAULT VALUE, Ex. _useState(props.title)_
+useState return an Array which the first element is the variable and the second element is a method to set the value of such variable.
+
+We can use destructuring (feature of merdn JS) to store both elemnts from useState in separate variables:
+const [title, setTitle] = useState(props.title);
+
+When we call the setTitle function, will not only update the value of the variable titlle, will also execute the component function again. This tells React that the component should be re-evaluated.
+
+useState registers some state for the component in which it is being called, It registers it for a specific component instance; per component instance basis
+
+React knows that the init state was already assigned when executing the function component for the first time and will not initialize again when reevaluted the component, it will keep the latest value assigned.
+
+React will re-evaluate the component when the state changes.
+
+=== Learned
+* Managing state using: 
+** Multiple states.
+** One State.
+* Spread operator
+* Updating state that depends on previous state.
+
+CAUTION: When you update state that depends on previous state you should set the new state by passing a function. This due to the fact that React schedule the updating for the state, so you could be working with old states.
+
+IMPORTANT:
+[source]
+----
+// Use this syntax to avoid working with old state when dependeing on previous states.
+setUserInput( () => {} );
+----
+
+[source]
+----
+const ExpenseForm = () => {
+
+  // Managing state using multiple states.
+  const [enteredTitle, setEnteredTitle] = useState("");
+  const [enteredAmount, setEnteredAmount] = useState("");
+  const [enteredDate, setEnteredDate] = useState("");
+
+
+  /* You can use one state instead multiple states, using object and spread operator to update the state.
+  Initializing the state */
+  /* const [userInput, setUserInput] = useState({
+    enteredTitle: "",
+    enteredAmount: "",
+    enteredDate: ""
+  }); */
+
+  const titleChangeHandler = (event) => {
+
+    /* When you update state that depends on previous state you should set the new state by passing a function. 
+    This due to the fact that React schedule the updating for the state, so you could be working with old states. */
+
+    /* setUserInput({
+      enteredTitle: event.target.value,
+      ...userInput
+    }); */
+
+    // Use this syntax to avoid working with old state when dependeing on previous states.
+    // setUserInput( () => {} );
+    
+    /* setUserInput( (prevState) => {
+      return {
+        ...prevState,
+        enteredTitle: event.target.value
+      }
+    } ); */
+
+  };
+
+  const amountChangeHandler = (event) => {
+
+    setEnteredAmount(event.target.value);
+    
+    /* setUserInput({
+      enteredAmount: event.target.value,
+      ...userInput
+    }); */
+  };
+
+  const dateChangeHandler = (event) => {
+
+    setEnteredDate(event.target.value);
+
+    /* setUserInput({
+      enteredDate: event.target.value,
+      ...userInput
+    }); */
+
+  };
+
+  return (
+    <form>
+      <div className="new-expense__controls">
+        <div className="new-expense__control">
+          <label>Title</label>
+          <input type="text" onChange={titleChangeHandler} />
+        </div>
+        <div className="new-expense__control">
+          <label>Amount</label>
+          <input type="number" min="0.01" step="0.01" onChange={amountChangeHandler} />
+        </div>
+        <div className="new-expense__control">
+          <label>Date</label>
+          <input type="date" min="2022-04-01" onChange={dateChangeHandler} />
+        </div>
+      </div>
+      <div className="new-expense__actions">
+        <button type="submit">Add Expense</button>
+      </div>
+    </form>
+  )
+
+}
+----
