@@ -11,7 +11,7 @@
 == KNOWLEDGE BASE
 
 === PROBLEM:
-Uncaught TypeError: items.map is not a function
+_*Uncaught TypeError: items.map is not a function*_
 
 .CONTEXT:
 [source]
@@ -38,7 +38,7 @@ const Expenses = (values) => {
 ----
 
 === PROBLEM:
-date.getFullYear is not a Function
+_*date.getFullYear is not a Function*_
 
 .CONTEXT:
 [source]
