@@ -1,4 +1,5 @@
 = REACT - Learning and issues. Lesson-3
+:icons: font
 
 == Learned:
 * Managing state using: 
@@ -6,6 +7,8 @@
 ** One State.
 * Spread operator
 * Updating state that depends on previous state.
+
+IMPORTANT: When you update state that depends on previous state you should set the new state by passing a function. This due to the fact that React schedule the updating for the state, so you could be working with old states.
 
 [source]
 ----
