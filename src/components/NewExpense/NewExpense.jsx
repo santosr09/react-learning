@@ -9,6 +9,6 @@ const NewExpense = () => {
       <ExpenseForm />
     </div>
   )
-}
+};
 
 export default NewExpense;
