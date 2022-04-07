@@ -1,22 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 import './ExpenseForm.css';
 
 const ExpenseForm = () => {
 
-  const [enteredTitle, setEnteredTitle] = useState("");
+/*   const [enteredTitle, setEnteredTitle] = useState("");
   const [enteredAmount, setEnteredAmount] = useState("");
-  const [enteredDate, setEnteredDate] = useState("");
+  const [enteredDate, setEnteredDate] = useState(""); */
+
+  // Using one state instead multiple states, using object and spread operator to update the state.
+  // Initializing the state
+  const [userInput, setUserInput] = useState({
+    enteredTitle: "",
+    enteredAmount: "",
+    enteredDate: ""
+  });
 
   const titleChangeHandler = (event) => {
-    setEnteredTitle(event.target.value);
+
+    /* When you update state that depends on previous state you should set the new state by passing a function. 
+    This due to the fact that React schedule the updating for the state, so you could be working with old states. */
+
+    /* setUserInput({
+      enteredTitle: event.target.value,
+      ...userInput
+    }); */
+
+    // Use this syntax to avoid working with old state when dependeing on previous states.
+    // setUserInput( () => {} );
+    
+    setUserInput( (prevState) => {
+      return {
+        ...prevState,
+        enteredTitle: event.target.value
+      }
+    } );
+
   };
 
   const amountChangeHandler = (event) => {
-    setEnteredAmount(event.target.value);
+    setUserInput({
+      enteredAmount: event.target.value,
+      ...userInput
+    });
   };
 
   const dateChangeHandler = (event) => {
-    etEnteredDate(event.target.value);
+    setUserInput({
+      enteredDate: event.target.value,
+      ...userInput
+    });
   };
 
   return (
