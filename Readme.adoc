@@ -8,7 +8,7 @@
 * Fetching data from a JSON file
 * Passing data via props
 
-== KNOWLEDGE BASE
+== Knowledge base
 
 === PROBLEM:
 *_Uncaught TypeError: items.map is not a function_*
