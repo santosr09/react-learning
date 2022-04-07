@@ -1,5 +1,4 @@
-REACT - Learning and issues.
-===========
+= REACT - Learning and issues.
 :toc:
 
 == Learned:
