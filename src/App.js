@@ -1,5 +1,4 @@
-import ExpenseItem from './components/ExpenseItem/ExpenseItem';
-import Expenses from './components/Expenses/Expenses';
+import Expenses from './components/Expenses/Expenses'; 
 
 import ITEMS from './dummy-data.json'
 
