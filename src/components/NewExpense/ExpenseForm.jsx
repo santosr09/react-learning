@@ -8,6 +8,7 @@ const ExpenseForm = () => {
   const [enteredAmount, setEnteredAmount] = useState("");
   const [enteredDate, setEnteredDate] = useState(""); */
 
+
   /* You can use one state instead multiple states, using object and spread operator to update the state.
   Initializing the state */
   const [userInput, setUserInput] = useState({
