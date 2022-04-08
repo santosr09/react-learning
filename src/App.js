@@ -5,7 +5,6 @@ import ITEMS from './dummy-data.json'
 import logo from './logo.svg';
 import './App.css';
 import NewExpense from './components/NewExpense/NewExpense';
-import ExpensesFilter from './components/Expenses/ExpensesFilter';
 
 
 function App() {
@@ -14,10 +13,6 @@ function App() {
     console.log("In App.js");
     console.log(ITEMS);
   };
-  
-  const selectYearHandler = (value) => {
-    console.log("Year selected: " + value);
-  }
   
   return (
     <div className="App">
@@ -33,7 +28,6 @@ function App() {
         </a>
       </header>
       <NewExpense onAddExpense={addExpenseHandler} />
-      <ExpensesFilter OnSelectYear={selectYearHandler} />
       <Expenses items={ITEMS}/>
     </div>
   );
