@@ -5,13 +5,18 @@ import ITEMS from './dummy-data.json'
 import logo from './logo.svg';
 import './App.css';
 import NewExpense from './components/NewExpense/NewExpense';
+import { useState } from 'react';
 
 
 function App() {
 
-  const addExpenseHandler = () => {
-    console.log("In App.js");
-    console.log(ITEMS);
+  const [ expenses, setExpenses ] = useState(ITEMS);
+
+  const addExpenseHandler = (expense) => {
+    //Updating an state that depends on previous state
+    setExpenses((prevExpenses) => {
+      return [expense, ...prevExpenses];
+    });
   };
   
   return (
@@ -28,7 +33,7 @@ function App() {
         </a>
       </header>
       <NewExpense onAddExpense={addExpenseHandler} />
-      <Expenses items={ITEMS}/>
+      <Expenses items={expenses}/>
     </div>
   );
 }

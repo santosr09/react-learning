@@ -1,229 +1,63 @@
-= REACT basics.
+= REACT - Rendering Lists & Conditional Content.
+=== Array.map()
+Working with Dynamic Content
+Outputting Dynamic Lists of Content
+Rendering content under certain conditions.
 
-== Custom components
-* How to create and use custom React components.
-* Splitting components
-* Using different syntax to create JS functions
-* Formatting dates from JSON 
-* Fetching data from a JSON file
-* Passing data via props
+Use {} to execute dynamic expressions in JSX code, you can execute Javascript expressions inside curly braces.
 
-== Knowledge base
-
-=== PROBLEM:
-*_Uncaught TypeError: items.map is not a function_*
-
-.CONTEXT:
-[source]
-----
-const Expenses = (items) => {
-
-  return (
-    <div className="expenses">
-      {items.map((item) => (
-        <ExpenseItem
-----
-		
-.SOLUTION:
-I was trying to use the object passed("values") instead the array("items[]") inside such object(values.items)
-
+Iterating an array:
 [source]
 ----
 const Expenses = (values) => {  
 
+  const [ filteredYear, setFilteredYear ] = useState('');
+
+  const filterChangeHandler = (value) => {
+    setFilteredYear(value);
+  }
+
+  // https://stackoverflow.com/questions/30803168/data-map-is-not-a-function
+  
   return (
-    <div className="expenses">
+    <Card className="expenses">
+      <ExpensesFilter selected={filteredYear} onChangeFilter={filterChangeHandler} />
       {values.items.map((item) => (
         <ExpenseItem
-----
-
-=== PROBLEM:
-*_date.getFullYear is not a Function_*
-
-.CONTEXT:
-[source]
-----
-function ExpenseDate(date) {
-  const year = date.getFullYear();
-  const month = date.toLocaleString('en-US', {month: 'long'});
-----
-		
-.SOLUTION:
-The date param is not recognized as a Date object.
-
-[source]
-----
-function ExpenseDate(strDate) {
-  const date = new Date(strDate.date);
-  const year = date.getFullYear();
-  const month = date.toLocaleString('en-US', {month: 'long'});
-----
-
-== Using states
-The component function(In React each component is a function) is not call a second time after the initial rendering just because a click occure or a variable changes DOES NOT TRIGGER THIS COMPONENT FUNCTION TO RUN AGAIN.
-
-To tell React that it should run it again we should use the function from React: useState
-*usesState allows to define values as state, where changes to those values should reflect in the component function being called again*
-
-[source]
-----
-// Importing function useState() from React, as a named function ({namedFucntion})
-import { useState } from 'react'
-----
-
-useState is a *React Hook*, all the Hooks must be called only inside of React component functions; they can Not be called outside of these functions. Neither can't be called inside nested functions, just directly inside such component function.
-
-useState requires a DEFAULT VALUE, Ex. _useState(props.title)_
-useState return an Array which the first element is the variable and the second element is a method to set the value of such variable.
-
-We can use destructuring (feature of merdn JS) to store both elemnts from useState in separate variables:
-const [title, setTitle] = useState(props.title);
-
-When we call the setTitle function, will not only update the value of the variable titlle, will also execute the component function again. This tells React that the component should be re-evaluated.
-
-useState registers some state for the component in which it is being called, It registers it for a specific component instance; per component instance basis
-
-React knows that the init state was already assigned when executing the function component for the first time and will not initialize again when reevaluted the component, it will keep the latest value assigned.
-
-React will re-evaluate the component when the state changes.
-
-=== Learned
-* Managing state using: 
-** Multiple states.
-** One State.
-* Spread operator
-* Updating state that depends on previous state.
-
-CAUTION: When you update state that depends on previous state you should set the new state by passing a function. This due to the fact that React schedule the updating for the state, so you could be working with old states.
-
-IMPORTANT:
-[source]
-----
-// Use this syntax to avoid working with old state when dependeing on previous states.
-setUserInput( () => {} );
-----
-
-[source]
-----
-const ExpenseForm = () => {
-
-  // Managing state using multiple states.
-  const [enteredTitle, setEnteredTitle] = useState("");
-  const [enteredAmount, setEnteredAmount] = useState("");
-  const [enteredDate, setEnteredDate] = useState("");
-
-
-  /* You can use one state instead multiple states, using object and spread operator to update the state.
-  Initializing the state */
-  /* const [userInput, setUserInput] = useState({
-    enteredTitle: "",
-    enteredAmount: "",
-    enteredDate: ""
-  }); */
-
-  const titleChangeHandler = (event) => {
-
-    /* When you update state that depends on previous state you should set the new state by passing a function. 
-    This due to the fact that React schedule the updating for the state, so you could be working with old states. */
-
-    /* setUserInput({
-      enteredTitle: event.target.value,
-      ...userInput
-    }); */
-
-    // Use this syntax to avoid working with old state when dependeing on previous states.
-    // setUserInput( () => {} );
-    
-    /* setUserInput( (prevState) => {
-      return {
-        ...prevState,
-        enteredTitle: event.target.value
+          key={item.id}
+          title={item.title}
+          amount={item.amount}
+          date={item.date}
+        />
+      ))
       }
-    } ); */
-
-  };
-
-  const amountChangeHandler = (event) => {
-
-    setEnteredAmount(event.target.value);
-    
-    /* setUserInput({
-      enteredAmount: event.target.value,
-      ...userInput
-    }); */
-  };
-
-  const dateChangeHandler = (event) => {
-
-    setEnteredDate(event.target.value);
-
-    /* setUserInput({
-      enteredDate: event.target.value,
-      ...userInput
-    }); */
-
-  };
-
-  return (
-    <form>
-      <div className="new-expense__controls">
-        <div className="new-expense__control">
-          <label>Title</label>
-          <input type="text" onChange={titleChangeHandler} />
-        </div>
-        <div className="new-expense__control">
-          <label>Amount</label>
-          <input type="number" min="0.01" step="0.01" onChange={amountChangeHandler} />
-        </div>
-        <div className="new-expense__control">
-          <label>Date</label>
-          <input type="date" min="2022-04-01" onChange={dateChangeHandler} />
-        </div>
-      </div>
-      <div className="new-expense__actions">
-        <button type="submit">Add Expense</button>
-      </div>
-    </form>
-  )
-
+    </Card>
+  );
 }
 ----
 
-== State and Event handling
-*Moving data from a Child to a Parent component* by utilizing props to receive a function from the parent component which we calle in the child component.
+=== key prop
+If is present on the component or HTML element, it can help React to identify individual items.
+When theris not a Key present, React render the new element as the last item in the list, and updates all items and replace their content
+This is happening because to React all these items look similar, only sees that array changed, walk through all the items and updates the content inside of every item.
 
-
-=== Handling form submission _Prenventing default event_
-
-When submitting a form, by default it reload the page, to avoid this we should prevent the defauilt behaivor of the submit form
 [source]
 ----
-  const submitHandler = (event) => {
-    event.preventDefault();
+  let expensesContent = <p>No expenses Found.</p>
 
+  if(filteredExpenses.length > 0) {
+    expensesContent = filteredExpenses.map((item) => (
+      <ExpenseItem
+        key={item.id}
+        title={item.title}
+        amount={item.amount}
+        date={item.date}
+      />
+    ));
   }
-
+  
   return (
-    <form onSubmit={submitHandler}>
+    <Card className="expenses">
+      <ExpensesFilter selected={filteredYear} onChangeFilter={filterChangeHandler} />
+      {expensesContent}
 ----
-
-=== Two-way Binding
-For inputs we don't just listen to changes but we can also pass a new value back into the input, we can reset the input programmatically
-This Two-way binding is made by adding the attribute "value" to the input: _<input type="text" value={enteredTitle} onChange={titleChangeHandler} />_
-
-=== Child-to-parent component communication(Bottom-up)
-We can create our own cutom attributes for each cutom component, such attribute will recive a function that will be triggered when something happens inside of the component.
-Pass a pointer at a function. Such function will be executed on the custom component.
-
-=== Lifting State Up 
-*Moving data from child component to a parent component*
-We don't have direct connection between two sibling components, We can only communicate from parent to child and viceversa
-We could utilize the closest parent component which has direct or inderect access to both involved components 
-Lifting the state up -> passing data up to some parent component and then pass thata data down to another component via props.
-
-== Controlled and Uncontrolled component _stateful vs stateles components, dumb vs smart components_
-Whenever you use two way binding you are controlling a component 
-A value which is used in the component is pass on to a parent component through props, and is received from the parent component. The real logic resides in the parent component
-The value and changes to the value are not handled in the component itself, but in a parent component
-
-*Presentational vs stateful components(stateless vs stateful components)*

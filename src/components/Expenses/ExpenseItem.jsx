@@ -9,6 +9,7 @@ const ExpenseItem = (props) => {
   const [title, setTitle] = useState(props.title);
 
   return (
+    <li>
     <Card className="expense-item" >
       <ExpenseDate date={props.date} />
       <div className="expense-item__description">
@@ -17,30 +18,10 @@ const ExpenseItem = (props) => {
           ${props.amount}
         </div>
       </div>
-
     </Card>
+    </li>
   );
 
 }
-
-//A different syntax for functions:
-
-/* function ExpenseItem(props) {
-
-  return(
-    <div className="expense-item" >
-      <div className="expense-item__description">
-        <h2>{props.title}</h2>
-      </div>
-      <div className="expense-item__price">
-        {props.amount}
-      </div>
-      
-        <ExpenseDate date={props.date}/>
-      
-    </div>
-  );
-
-} */
 
 export default ExpenseItem;
