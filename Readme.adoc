@@ -1,5 +1,12 @@
 = REACT - Styling React components
 
 == Conditional and dynamic styles
+
+When using INLINE STYLES, it has the higesth priority, so should be avoided as a best practice.
+[source]
+----
+ <label style={{ color: !isValid ? 'red' : 'black' }}>Course Goal</label>
+----
+
 == Styled components 
 == CSS modules 
