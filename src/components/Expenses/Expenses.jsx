@@ -1,21 +1,29 @@
+import { useState } from "react";
+
 import Card from "../UI/Card";
-import ExpenseItem from "./ExpenseItem";
+import ExpensesFilter from "./ExpensesFilter";
+import ExpensesList from "./ExpensesList";
+import ExpensesChart from "./ExpensesChart";
 
-const Expenses = (values) => {  
+import './Expenses.css';
 
-  // https://stackoverflow.com/questions/30803168/data-map-is-not-a-function
+const Expenses = (props) => {  
+
+  const [ filteredYear, setFilteredYear ] = useState('2022');  
+
+  const filterChangeHandler = (value) => {
+    setFilteredYear(value);
+  }
+
+  const filteredExpenses = props.items.filter(expense => {
+    return new Date(expense.date).getFullYear().toString() === filteredYear;
+  });
   
   return (
     <Card className="expenses">
-      {values.items.map((item) => (
-        <ExpenseItem
-          key={item.id}
-          title={item.title}
-          amount={item.amount}
-          date={item.date}
-        />
-      ))
-      }
+      <ExpensesFilter selected={filteredYear} onChangeFilter={filterChangeHandler} />
+      <ExpensesChart expenses={filteredExpenses} />
+      <ExpensesList items={filteredExpenses}/>
     </Card>
   );
 }
