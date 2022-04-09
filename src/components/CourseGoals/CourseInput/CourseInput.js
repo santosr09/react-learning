@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import Styled from 'styled-components';
+
+//Removing styled components in preferance for Style modules
+//import Styled from 'styled-components';
 
 import Button from '../../UI/Button/Button';
-import './CourseInput.css';
+import styles from './CourseInput.module.css';
 
-const FormControl = Styled.div`
+//Commenting styled components in preferance for Style modules
+/* const FormControl = Styled.div`
   margin: 0.5rem 0;
 
 & label {
@@ -38,8 +41,8 @@ const FormControl = Styled.div`
 
 &.invalid label {
   color: red;
-} */
-`;
+} 
+`; */
 
 const CourseInput = props => {
   const [enteredValue, setEnteredValue] = useState('');
@@ -65,10 +68,17 @@ const CourseInput = props => {
     <form onSubmit={formSubmitHandler}>
       {/* Conditional */}
       {/* <FormControl className={!isValid && 'invalid'}> */}
-      <FormControl invalid={!isValid}>
+      
+      {/* Removing FormControl to use CSS modules instead styled */}
+      {/* <FormControl invalid={!isValid}> */}
+
+      {/* div usgin CSS modules */}
+      <div className={`${styles['form-control']} ${!isValid && styles.invalid}`}>
         <label>Course Goal</label>
         <input type="text" onChange={goalInputChangeHandler} />
-      </FormControl>
+      </div>
+
+      {/* </FormControl> */}
       <Button type="submit">Add Goal</Button>
     </form>
   );

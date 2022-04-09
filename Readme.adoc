@@ -79,5 +79,47 @@ To this:
   border: 1px solid ${props => invalid ? 'red' : '#ccc'};
 ----
 
+=== Media queries
+YOu just write the styles that should be applied if a the condition defined in the media querie is fullfiled
+
+Inside the CSS code in the styled component: 
+[source]
+----
+  @media (min-width: 768px) {
+    width: auto;
+  }
+----
 
 == CSS modules 
+React supports CSS modules styling (https://create-react-app.dev/docs/adding-a-css-modules-stylesheet/)
+[name].module.css file naming convention. CSS Modules allows the scoping of CSS by automatically creating a unique classname of the format [filename]\_[classname]\_\_[hash].
+
+[source]
+----
+//The name of the css file must follow the convention: [name].module.css
+import styles from './CourseInput.module.css';
+
+//Using the CSS, you access the CSS selector with this syntax: _styles['form-control']_
+ <div className={styles['form-control']}>
+
+
+// USing CSS with conditions (Requires backsticks):
+ <div className={`${styles['form-control']} ${!isValid && styles.invalid}`}>
+
+----
+
+*Using the CSS, you access the CSS selector with this syntax: _styles['form-control']*
+
+*Using media queries in CSS modules:*
+Just define the media query in the CSS module file:
+[source]
+----
+@media (min-width: 768px) {
+  .button {
+    width: auto;
+  }
+----
+
+and use it in the Component: _className={styles.button}_
+
+
