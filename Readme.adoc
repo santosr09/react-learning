@@ -1,11 +1,20 @@
 = REACT - Styling React components
 
 == Conditional and dynamic styles
-
+=== Inline Styles (Not the best approach)
 When using INLINE STYLES, it has the higesth priority, so should be avoided as a best practice.
 [source]
 ----
- <label style={{ color: !isValid ? 'red' : 'black' }}>Course Goal</label>
+  <label style={{ color: !isValid ? 'red' : 'black' }}>Course Goal</label>
+----
+
+=== Setting CSS classes DYNAMICALLY
+Backticks `` are requerid, it is a default Javascript feature called a template literal. 
+Will  be treated as a regular string; a dynamic value ${} can be injected into that string.
+
+[source]
+----
+  <div className={`form-control ${!isValid ? 'invalid' : ''}`}>
 ----
 
 == Styled components 
