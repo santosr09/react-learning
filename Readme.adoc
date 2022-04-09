@@ -37,8 +37,9 @@ const Expenses = (values) => {
 ----
 
 === key prop
+Key is required for React to correctly identify and update (if needed) the list elements.
 If is present on the component or HTML element, it can help React to identify individual items.
-When theris not a Key present, React render the new element as the last item in the list, and updates all items and replace their content
+When ther is not a Key present, React render the new element as the last item in the list, and updates all items and replace their content
 This is happening because to React all these items look similar, only sees that array changed, walk through all the items and updates the content inside of every item.
 
 [source]
@@ -60,4 +61,22 @@ This is happening because to React all these items look similar, only sees that 
     <Card className="expenses">
       <ExpensesFilter selected={filteredYear} onChangeFilter={filterChangeHandler} />
       {expensesContent}
+----
+
+== Dynamic styling:
+
+[source]
+----
+const ChartBar = props => {
+
+  let barFillHeight = '0%';
+
+  if (props.maxValue > 0) {
+    barFillHeight = Math.round((props.value / props.maxValue) * 100) + '%';
+  }
+
+  return (
+    <div className="chart-bar">
+      <div className="chart-bar__inner">
+        <div className="chart-bar__fill" style={{ height: barFillHeight }}></div>
 ----
