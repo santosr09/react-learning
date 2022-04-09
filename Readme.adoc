@@ -50,4 +50,34 @@ const Button = Styled.button`
 `;
 ----
 
+=== Dynamic props
+Styled components forward all props you set on them to the underlying components
+Now we are passing the property 'invalid' to the component:
+_<FormControl invalid={!isValid}>_
+
+This is contiditional CSS in the React component:
+[source]
+----
+//Conditional className
+  <FormControl className={!isValid && 'invalid'}>
+----
+
+*Dynamics props refers to conditional props(via js code) inside the CSS code in the styled component:*
+
+[source]
+----
+From this_
+& input {
+  display: block;
+  width: 100%;
+  border: 1px solid #ccc;
+
+To this:
+& input {
+  display: block;
+  width: 100%;
+  border: 1px solid ${props => invalid ? 'red' : '#ccc'};
+----
+
+
 == CSS modules 
