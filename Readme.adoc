@@ -152,3 +152,9 @@ What is stored is the actual DOM node.
 *When to use refs?* 
 If you just want to *READ VALUES* ref could be a better option than useState()
 
+=== Controlled and Uncontrolled components
+*Uncontrolled* components: they internal state is not controlled by React.
+Input components, Form components in general are commonly *Uncontrolled* components 
+
+*Controlled* components, the value of the components is managed by react, via the useState methods and the two-binding (setting the value in the input).
+
