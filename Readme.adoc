@@ -1,82 +1,102 @@
-= REACT - Rendering Lists & Conditional Content.
-=== Array.map()
-Working with Dynamic Content
-Outputting Dynamic Lists of Content
-Rendering content under certain conditions.
+= REACT - Fragments, Portal & Refs
 
-Use {} to execute dynamic expressions in JSX code, you can execute Javascript expressions inside curly braces.
+== JSX Limitations
+*You can't return more than one "root JSX element* You can't store more than one "root" JSX element in a variable
 
-Iterating an array:
+Instead a wrapping <div> we also can return an array:
+
 [source]
 ----
-const Expenses = (values) => {  
-
-  const [ filteredYear, setFilteredYear ] = useState('');
-
-  const filterChangeHandler = (value) => {
-    setFilteredYear(value);
-  }
-
-  // https://stackoverflow.com/questions/30803168/data-map-is-not-a-function
-  
-  return (
-    <Card className="expenses">
-      <ExpensesFilter selected={filteredYear} onChangeFilter={filterChangeHandler} />
-      {values.items.map((item) => (
-        <ExpenseItem
-          key={item.id}
-          title={item.title}
-          amount={item.amount}
-          date={item.date}
-        />
-      ))
-      }
-    </Card>
+ return (
+    <div>
+      <div className={classes.backdrop} onClick={props.onConfirm} />
+      <Card className={classes.modal}>
+        <header className={classes.header}>
+          <h2>{props.title}</h2>
+        </header>
+        <div className={classes.content}>
+          <p>{props.message}</p>
+        </div>
+        <footer className={classes.actions}>
+          <Button onClick={props.onConfirm}>Okay</Button>
+        </footer>
+      </Card>
+    </div>
   );
+----
+
+Using an array instead a wrapping <div>:
+[source]
+----
+ return (
+    [
+      <div className={classes.backdrop} onClick={props.onConfirm} />,   //Separate each element inside the array by commas
+      <Card className={classes.modal}>,   //Separate each element inside the array by commas
+        <header className={classes.header}>
+          <h2>{props.title}</h2>
+        </header>
+        <div className={classes.content}>
+          <p>{props.message}</p>
+        </div>
+        <footer className={classes.actions}>
+          <Button onClick={props.onConfirm}>Okay</Button>
+        </footer>
+      </Card>
+    ]
+  );
+----
+
+With this approach React will complains for a key for each element, so the solution will be add a key in each element of the array:
+[source]
+----
+ return (
+    [
+      <div key="div-wrapper" className={classes.backdrop} onClick={props.onConfirm} />,   
+      <Card key="card-element" className={classes.modal}>,  
+----
+
+=== DIV soup
+With this DIV wrapping approach, we could end up with DIV SOUP.
+Many nested React components, many unnecessary DIVs being rendered in the real DOM, only due to the JSX limitation commented before.
+In bigger apps, you can easily end up with tons of unnecessary <div>s (or other elements) *which add no semantic meaning or structure* to the page but are only there because of React's/ JSX requirement.
+Render a lot of HTML element could make the application slower, also because React need to be aware of any change in those elements.
+
+==== Wrapping component
+Creating a wrapper component, Will just return the content within the enclosed wrapper.
+The *props.children* will hold all the content inside the wrapper.
+
+[source]
+----
+const Wrapper = props => {
+  return props.children;
 }
+
+export default Wrapper;
 ----
 
-=== key prop
-Key is required for React to correctly identify and update (if needed) the list elements.
-If is present on the component or HTML element, it can help React to identify individual items.
-When ther is not a Key present, React render the new element as the last item in the list, and updates all items and replace their content
-This is happening because to React all these items look similar, only sees that array changed, walk through all the items and updates the content inside of every item.
+With this approach *No additional, unnecessary DIVs are rendered in the real DOM*
 
+=== React FRAGMENTS 
+React Fragment is an empty wrapper component, It doesn't render any real HTML element to the DOM. But it fulfills React's/JSX' requirement.
+React.Fragment can be used as a wrapper, via these syntaxies:
 [source]
 ----
-  let expensesContent = <p>No expenses Found.</p>
-
-  if(filteredExpenses.length > 0) {
-    expensesContent = filteredExpenses.map((item) => (
-      <ExpenseItem
-        key={item.id}
-        title={item.title}
-        amount={item.amount}
-        date={item.date}
-      />
-    ));
-  }
-  
-  return (
-    <Card className="expenses">
-      <ExpensesFilter selected={filteredYear} onChangeFilter={filterChangeHandler} />
-      {expensesContent}
+return (
+  <React.Fragment>
+    <h2>Hi there!</h2>
+    <p>Another element</p> 
+  </React.Fragment>
+)
 ----
-
-== Dynamic styling:
-
+Or
+This syntax requires to be supported by the build setup in your environment.
 [source]
 ----
-const ChartBar = props => {
-
-  let barFillHeight = '0%';
-
-  if (props.maxValue > 0) {
-    barFillHeight = Math.round((props.value / props.maxValue) * 100) + '%';
-  }
-
-  return (
-    <div className="chart-bar">
-      <div className="chart-bar__inner">
-        <div className="chart-bar__fill" style={{ height: barFillHeight }}></div>
+return (
+  <>
+    <h2>Hi there!</h2>
+    <p>Another element</p> 
+  </>
+)
 ----
+
