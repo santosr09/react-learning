@@ -100,3 +100,55 @@ return (
 )
 ----
 
+== Portals
+The problem with a modal, *Semantically* and from a _clean HTML structure_ perspective, having this nested maodal isn't ideal it is an *overlay to the entire page* after all (that´s similar for side-drawers, other dialogs, etc.).
+
+It's a bit like styling a <div> like a <button> and adding an event listener to it: It'll work, but it's not a good practice.
+_<div onClick={clickHandler}>Click me, I'm a bad button</div>
+
+Import ReactDOM:
+_import ReactDOM from 'react-dom';_
+
+Put divs otuside the root element, where you want the React element be translated, be _portaled_
+file: _index.html_
+[source,html]
+----
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="backdrop-root"></div>
+    <div id="overlay-root"></div>
+    <div id="root"></div>
+----
+
+*You can make things works, but just because it works doesn't means is a good implementation*
+
+== React Refs
+Ref is a property(as key property)can be used in any HTML element
+You can connect any of the HTML element to one of Refs(many common in input elements becaus you want fetch input data)
+
+In order to user Ref, import the useRef() hook from React
+Real DOM element will be stored in the variable defined by the useRef()
+
+[source]
+----
+import { useRef } from 'react';
+
+const nameInputRef = useRef();
+const ageInputRef = useRef();
+
+// And in the HTML element:
+<input
+    id="username"
+    type="text"
+    value={enteredUsername}
+    onChange={usernameChangeHandler}
+    ref={nameInputRef}
+  />
+----
+
+The ref always is an object, and always has a _current_ prop, and such _current_ prop hold the actual value wich ref is connected.
+What is stored is the actual DOM node.
+
+*When to use refs?* 
+If you just want to *READ VALUES* ref could be a better option than useState()
+
