@@ -27,6 +27,11 @@ Second:
 A list of dependencies, Dependencies of this effect - the function only runs if these dependencies changed.
 Specify your dependencies of your function here.
 
+useEffect() is to handle side effects, useEffect helps you to deal with code that should be executed in response to something.
+(The component being loaded, the email address being updated) whenever you have and action that should be executed in response to some other action.
+
+You must add all "things" you use in your effect function if those "things" could change because your component (or some parent component) re-rendered. That's why variables or state defined in component functions, props or functions defined in component functions have to be added as dependencies!
+
 
 == Managing more complex state with Reducers
 == Managing App-Wide or Component-Wide State with Context
