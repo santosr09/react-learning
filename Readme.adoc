@@ -1,6 +1,9 @@
 = REACT - Effects, Reducers & Context
 
 == Working with (Side) Effects
+https://reactjs.org/docs/hooks-effect.html
+There are two common kinds of side effects in React components: *those that don’t require cleanup, and those that do.* Let’s look at this distinction in more detail.
+
 === What is an _Effect_ (or a _*Side Effect*_)?
 Main job of React: 
 * Render UI & React to User Input
@@ -18,10 +21,12 @@ If such side effects are put incorrectly in the lifecycle of react component, it
 Syntax:
 *useEffect( () => { ... }, [ depedencies] );*
 
+*useEffect() with an empty array of dependencies [] will run just once, when mounting.*
+*useEffect() withouth an array, will be executed after every render.(like: componentDidMount or componentDidUpdate )*
+
 useEffect() hook recieves two parameters:
 First:
-A function that should be executed AFTER every component evaluation IF the specified dependencies changed.
-Your side effect code goes into this function.
+Does useEffect run after every render? Yes! By default, it runs both after the first render and after every update. (We will later talk about how to customize this.) Instead of thinking in terms of “mounting” and “updating”, you might find it easier to think that effects happen “after render”. React guarantees the DOM has been updated by the time it runs the effects.
 
 Second:
 A list of dependencies, Dependencies of this effect - the function only runs if these dependencies changed.
@@ -32,6 +37,19 @@ useEffect() is to handle side effects, useEffect helps you to deal with code tha
 
 You must add all "things" you use in your effect function if those "things" could change because your component (or some parent component) re-rendered. That's why variables or state defined in component functions, props or functions defined in component functions have to be added as dependencies!
 
+*Optimizing Performance by Skipping Effects*
+You can tell React to skip applying an effect if certain values haven’t changed between re-renders. To do so, pass an array as an optional second argument to useEffect:
+[source,javascript]
+----
+useEffect(() => {
+  document.title = `You clicked ${count} times`;
+}, [count]); // Only re-run the effect if count changes
+----
+https://reactjs.org/docs/hooks-effect.html
+=== CLEAN UP 
+If your effect returns a function, React will run it when it is time to clean up
+*Why did we return a function from our effect?* This is the optional cleanup mechanism for effects. Every effect may return a function that cleans up after it.
+*When exactly does React clean up an effect?* React performs the cleanup when the component unmounts.
 
 == Managing more complex state with Reducers
 == Managing App-Wide or Component-Wide State with Context
