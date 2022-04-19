@@ -1,82 +1,37 @@
-= REACT - Rendering Lists & Conditional Content.
-=== Array.map()
-Working with Dynamic Content
-Outputting Dynamic Lists of Content
-Rendering content under certain conditions.
+= REACT - Effects, Reducers & Context
 
-Use {} to execute dynamic expressions in JSX code, you can execute Javascript expressions inside curly braces.
+== Managing more complex state with Reducers
+Sometimes you have *more complex state* - for example if it got *multiple states, multiple ways of changing it or dependencies* to other states.
 
-Iterating an array:
-[source]
-----
-const Expenses = (values) => {  
+useState() then often *becomes hard or error-prone to use* - it's easy to write bad, inefficient or buggy code in such escenarios.
 
-  const [ filteredYear, setFilteredYear ] = useState('');
+*useReducer()* can be used as a *replacement* for useState() if you need *more powerful state management*.
 
-  const filterChangeHandler = (value) => {
-    setFilteredYear(value);
-  }
+_Some uses cases when to use useReducer():_
+When yuo have states that belong together.
+If you have state updates that depends on other state.
 
-  // https://stackoverflow.com/questions/30803168/data-map-is-not-a-function
-  
-  return (
-    <Card className="expenses">
-      <ExpensesFilter selected={filteredYear} onChangeFilter={filterChangeHandler} />
-      {values.items.map((item) => (
-        <ExpenseItem
-          key={item.id}
-          title={item.title}
-          amount={item.amount}
-          date={item.date}
-        />
-      ))
-      }
-    </Card>
-  );
-}
-----
+=== Understanding useReducer()
 
-=== key prop
-Key is required for React to correctly identify and update (if needed) the list elements.
-If is present on the component or HTML element, it can help React to identify individual items.
-When ther is not a Key present, React render the new element as the last item in the list, and updates all items and replace their content
-This is happening because to React all these items look similar, only sees that array changed, walk through all the items and updates the content inside of every item.
+*const [state, dispatchFn] = useReducer(reducerFn, initialState, initFn);*
 
-[source]
-----
-  let expensesContent = <p>No expenses Found.</p>
+useReducer() always returns an array with exactly two values.
 
-  if(filteredExpenses.length > 0) {
-    expensesContent = filteredExpenses.map((item) => (
-      <ExpenseItem
-        key={item.id}
-        title={item.title}
-        amount={item.amount}
-        date={item.date}
-      />
-    ));
-  }
-  
-  return (
-    <Card className="expenses">
-      <ExpensesFilter selected={filteredYear} onChangeFilter={filterChangeHandler} />
-      {expensesContent}
-----
+state:
+The state snapshot used in the component re-render/ re-evaluation cycle
 
-== Dynamic styling:
+dispatchFn:
+A function that can be used to dispatch a new action(i.e. trigger an update of the state)
 
-[source]
-----
-const ChartBar = props => {
+reducerFn:
+(prevState, action) => newState
+A function that is *triggered automatically* once an action is *dispatched* (via dispatchFn()) - it *receives the latest state snapshot* and should *return the new, updated state*
 
-  let barFillHeight = '0%';
+initialState:
+The initial state
 
-  if (props.maxValue > 0) {
-    barFillHeight = Math.round((props.value / props.maxValue) * 100) + '%';
-  }
+initFn:
+A function to set the initial state programmatically
 
-  return (
-    <div className="chart-bar">
-      <div className="chart-bar__inner">
-        <div className="chart-bar__fill" style={{ height: barFillHeight }}></div>
-----
+== Managing App-Wide or Component-Wide State with Context
+
