@@ -25,7 +25,8 @@ Syntax:
 *useEffect() withouth an array, will be executed after every render.(like: componentDidMount or componentDidUpdate )*
 
 useEffect() hook recieves two parameters:
-First:
+First: A function
+
 Does useEffect run after every render? Yes! By default, it runs both after the first render and after every update. (We will later talk about how to customize this.) Instead of thinking in terms of “mounting” and “updating”, you might find it easier to think that effects happen “after render”. React guarantees the DOM has been updated by the time it runs the effects.
 
 Second:
