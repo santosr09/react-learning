@@ -42,7 +42,7 @@ const { isValid: passwordIsValid } = emailState
 passwordIsValid is the 'alias' for the field isValid
 
 ==== Adding Nested Properties As Dependencies To useEffect
-We used object destructuring to add object properties as dependencies to useEffect().
+_We used object destructuring to add object properties as dependencies to useEffect()._
 [source, javascript]
 ----
 const { someProperty } = someObject;
