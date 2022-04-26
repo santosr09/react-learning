@@ -7,7 +7,9 @@ const MainHeader = (props) => {
   return (
     <header className={classes['main-header']}>
       <h1>A Typical Page</h1>
-      <Navigation isLoggedIn={props.isAuthenticated} onLogout={props.onLogout} />
+      {/* By using context the 'isAutehnticated' property was removed from the parent */}
+      {/* <Navigation isLoggedIn={props.isAuthenticated} onLogout={props.onLogout} /> */}
+      <Navigation onLogout={props.onLogout} />
     </header>
   );
 };

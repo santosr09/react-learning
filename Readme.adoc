@@ -91,3 +91,115 @@ Generally you'll know when you need useReducer() -> when using useState()  becom
 
 == Managing App-Wide or Component-Wide State with Context
 
+https://reactjs.org/docs/context.html
+Context provides a way to pass data through the component tree without having to pass props down manually at every level.
+
+In a typical React application, data is passed top-down (parent to child) via props, but such usage can be cumbersome for certain types of props (e.g. locale preference, UI theme) that are required by many components within an application. Context provides a way to share values like these between components without having to explicitly pass a prop through every level of the tree.
+
+Context is primarily used when some data needs to be accessible by many components at different nesting levels. Apply it sparingly because it makes component reuse more difficult.
+
+If you only want to avoid passing some props through many levels, *component composition* is often a simpler solution than context.
+
+=== API context
+*React.createContext*
+[source]
+----
+const MyContext = React.createContext(defaultValue);
+----
+
+*Context.Provider*
+[source]
+----
+<MyContext.Provider value={/* some value */}>
+----
+
+*Class.contextType*
+[source]
+----
+class MyClass extends React.Component {
+  componentDidMount() {
+    let value = this.context;
+    /* perform a side-effect at mount using the value of MyContext */
+  }
+  componentDidUpdate() {
+    let value = this.context;
+    /* ... */
+  }
+  componentWillUnmount() {
+    let value = this.context;
+    /* ... */
+  }
+  render() {
+    let value = this.context;
+    /* render something based on the value of MyContext */
+  }
+}
+MyClass.contextType = MyContext;
+----
+
+*Context.Consumer*
+[source]
+----
+<MyContext.Consumer>
+  {value => /* render something based on the context value */}
+</MyContext.Consumer>
+----
+
+=== Using context: 1. Providing the context
+
+Providing means that you wrap in JSX code all the components that should be able to tap into that Context, that should be able to listen to that context. Any component that's not wrapped will not be able to listen.
+
+[source]
+----
+      <AuthContext.Provider>
+      <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler} />
+      <main>
+        {!isLoggedIn && <Login onLogin={loginHandler} />}
+        {isLoggedIn && <Home onLogout={logoutHandler} />}
+      </main>
+      </AuthContext.Provider>
+----
+All the components wrapped by AuthContext, will have access to AuthContext (All the components and their descendents.)
+
+We can listen the context in 2 ways: By using AuthContext consumer or by using a React Hook
+
+Example of listening the context using a consumer:
+[source]
+----
+const Navigation = (props) => {
+
+  return (
+    <AuthContext.Consumer>
+      { (ctx) => {
+        return (
+        <nav className={classes.nav}>
+          <ul>
+            {ctx.isLoggedIn && (
+              <li>
+                <a href="/">Users</a>
+              </li>
+            )}
+            {ctx.isLoggedIn && (
+              <li>
+                <a href="/">Admin</a>
+              </li>
+            )}
+            {ctx.isLoggedIn && (
+              <li>
+                <button onClick={props.onLogout}>Logout</button>
+              </li>
+            )}
+          </ul>
+        </nav>
+        )
+      }
+      }
+    </AuthContext.Consumer>
+  );
+};
+
+export default Navigation;
+
+----
+
+=== useContext Hook
