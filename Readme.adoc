@@ -203,3 +203,40 @@ export default Navigation;
 ----
 
 === useContext Hook
+[source]
+----
+import {useContext} from 'react';
+const Navigation = (props) => {
+  const ctx = useContext(AuthContext);
+----
+
+In most cases you will use props to pass data to components
+Because props are your mechanism to configure components and to make them reusable.
+
+== CONTEXT LIMITATIONS
+It can be great for app-wide or component-wide state. States that affects multiple components.
+It's Not a replacement for component configuration
+
+****
+*PROPS FOR CONFIGURATION*
+*CONTEXT FOR STATE MANAGEMENT ACROSS COMPONENTS*
+****
+
+React Context is *NOT optimized* for high frequency changes! (better tool: Redux)
+
+React Context also *shouldn't be used to replace ALL* component communications and props.
+Components should still be configurable via props and short "prop chain" might not need any replacement.
+
+== RULES OF HOOKS
+
+* Only call React Hooks in *React Functions*
+** React Component Functions
+** Custom Hooks.
+
+* Only call React Hooks at the *Top Level*
+** Don't call them in nested functions
+** Don't call them in any block statements
+
+Extra, _unofficial_ Rule for *useEffect()*: ALWAYS add everything you refer to inside of useEffect() as a dependency!
+
+

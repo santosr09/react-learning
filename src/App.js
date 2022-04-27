@@ -27,8 +27,13 @@ function App() {
   };
 
   return (
-      <AuthContext.Provider value={{ isLoggedIn: isLoggedIn}}>
-      <MainHeader isAuthenticated={isLoggedIn} onLogout={logoutHandler} />
+      <AuthContext.Provider value={
+        { isLoggedIn: isLoggedIn,
+          // We are just POINTING to the logoutHandler function, Not executing it
+          onLogout: logoutHandler
+        }
+        }>
+      <MainHeader/>
       <main>
         {!isLoggedIn && <Login onLogin={loginHandler} />}
         {isLoggedIn && <Home onLogout={logoutHandler} />}
