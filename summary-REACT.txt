@@ -1,0 +1,232 @@
+React’s one-way data flow (also called one-way binding)
+
+
+"const shop is equal to functional component: "
+  const Shop = () => { }
+
+
+
+You may also use curly braces to embed a JavaScript expression in an attribute:
+  const element = <img src={user.avatarUrl}></img>;
+
+Don’t put quotes around curly braces when embedding a JavaScript expression in an attribute. You should either use quotes (for string values) or curly braces (for expressions), but not both in the same attribute.
+
+By default, React DOM escapes any values embedded in JSX before rendering them. Thus it ensures that you can never inject anything that’s not explicitly written in your application. Everything is converted to a string before being rendered. This helps prevent XSS (cross-site-scripting) attacks.
+
+
+JSX Represents Objects
+Babel compiles JSX down to React.createElement() calls.
+
+
+These objects are called “React elements”. You can think of them as descriptions of what you want to see on the screen. React reads these objects and uses them to construct the DOM and keep it up to date.
+
+
+Elements are the smallest building blocks of React apps.
+An element describes what you want to see on the screen:
+  const element = <h1>Hello, world</h1>;
+
+
+****
+
+React DOM compares the element and its children to the previous one, and only applies the DOM updates necessary to bring the DOM to the desired state.
+Even though we create an element describing the whole UI tree on every tick, only the text node whose contents have changed gets updated by React DOM.
+    
+	In our experience, thinking about how the UI should look at any given moment, rather than how to change it over time, eliminates a whole class of bugs.
+
+****
+
+Components let you split the UI into independent, reusable pieces, and think about each piece in isolation
+
+Conceptually, components are like JavaScript functions. They accept arbitrary inputs (called “props”) and return React elements describing what should appear on the screen.
+
+========
+	function Welcome(props) {
+	  return <h1>Hello, {props.name}</h1>;
+	}
+
+	const element = <Welcome name="Sara" />;
+	ReactDOM.render(
+	  element,
+	  document.getElementById('root')
+	);
+
+Let’s recap what happens in this example:
+1 We call ReactDOM.render() with the <Welcome name="Sara" /> element.
+2 React calls the Welcome component with {name: 'Sara'} as the props.
+3 Our Welcome component returns a <h1>Hello, Sara</h1> element as the result.
+4 React DOM efficiently updates the DOM to match <h1>Hello, Sara</h1>.
+========
+Note: Always start component names with a capital letter.
+
+React treats components starting with lowercase letters as DOM tags. For example, <div /> represents an HTML div tag, but <Welcome /> represents a component and requires Welcome to be in scope.
+
+
+EXTRACTING COMPONENTS:
+Extracting components might seem like grunt work at first, but having a palette of reusable components pays off in larger apps. A good rule of thumb is that if a part of your UI is used several times (Button, Panel, Avatar), or is complex enough on its own (App, FeedStory, Comment), it is a good candidate to be extracted to a separate component.
+
+PURE FUNCTIONS:
+React is pretty flexible but it has a single strict rule:
+
+All React components must act like pure functions with respect to their props.
+
+============
+
+STATE
+
+State is similar to props, but it is private and fully controlled by the component.
+
+----
+You can convert a function component like Clock to a class in five steps:
+
+1 Create an ES6 class, with the same name, that extends React.Component.
+2 Add a single empty method to it called render().
+3 Move the body of the function into the render() method.
+4 Replace props with this.props in the render() body.
+5 Delete the remaining empty function declaration.
+
+
+	class Clock extends React.Component {
+	  render() {
+		return (
+		  <div>
+			<h1>Hello, world!</h1>
+			<h2>It is {this.props.date.toLocaleTimeString()}.</h2>
+		  </div>
+		);
+	  }
+	}
+	
+	
+Class components should always call the base constructor with props
+
+
+	class Clock extends React.Component {
+	  constructor(props) {
+		super(props);
+		this.state = {date: new Date()};
+	  }
+
+	  render() {
+		return (
+		  <div>
+			<h1>Hello, world!</h1>
+			<h2>It is {this.state.date.toLocaleTimeString()}.</h2>
+		  </div>
+		);
+	  }
+	}
+	
+	
+Adding Lifecycle Methods to a Class
+ In applications with many components, it’s very important to free up resources taken by the components when they are destroyed.
+ We want to set up a timer whenever the Clock is rendered to the DOM for the first time. This is called “mounting” in React.
+ We also want to clear that timer whenever the DOM produced by the Clock is removed. This is called “unmounting” in React.
+ We can declare special methods on the component class to run some code when a component mounts and unmounts:
+ 
+
+---- 
+The Data Flows Down
+Neither parent nor child components can know if a certain component is stateful or stateless, and they shouldn’t care whether it is defined as a function or a class.
+
+This is why state is often called local or encapsulated. It is not accessible to any component other than the one that owns and sets it.
+
+In React apps, whether a component is stateful or stateless is considered an implementation detail of the component that may change over time. You can use stateless components inside stateful components, and vice versa.
+
+
+HANDLING EVENTS
+When using React, you generally don’t need to call addEventListener to add listeners to a DOM element after it is created. Instead, just provide a listener when the element is initially rendered.
+
+You have to be careful about the meaning of this in JSX callbacks. In JavaScript, class methods are not bound by default. If you forget to bind this.handleClick and pass it to onClick, this will be undefined when the function is actually called.
+
+This is not React-specific behavior; it is a part of how functions work in JavaScript. Generally, if you refer to a method without () after it, such as onClick={this.handleClick}, you should bind that method
+
+
+	class Toggle extends React.Component {
+	  constructor(props) {
+		super(props);
+		this.state = {isToggleOn: true};
+
+		// This binding is necessary to make `this` work in the callback
+		this.handleClick = this.handleClick.bind(this);
+	  }
+
+	  handleClick() {
+		this.setState(prevState => ({
+		  isToggleOn: !prevState.isToggleOn
+		}));
+	  }
+
+	  render() {
+		return (
+		  <button onClick={this.handleClick}>
+			{this.state.isToggleOn ? 'ON' : 'OFF'}
+		  </button>
+		);
+	  }
+	}
+
+	ReactDOM.render(
+	  <Toggle />,
+	  document.getElementById('root')
+	);
+
+----
+NOTE:
+https://stackoverflow.com/questions/36795819/when-should-i-use-curly-braces-for-es6-import/36796281#36796281
+
+DEFAULT IMPORT AND NAMED IMPORT
+
+This is a default import:
+
+// B.js
+import A from './A'
+It only works if A has the default export:
+
+// A.js
+export default 42
+In this case it doesn’t matter what name you assign to it when importing:
+
+// B.js
+import A from './A'
+import MyA from './A'
+import Something from './A'
+Because it will always resolve to whatever is the default export of A.
+
+This is a named import called A:
+
+import { A } from './A'
+It only works if A contains a named export called A:
+
+export const A = 42
+In this case the name matters because you’re importing a specific thing by its export name:
+
+// B.js
+import { A } from './A'
+import { myA } from './A' // Doesn't work!
+import { Something } from './A' // Doesn't work!
+To make these work, you would add a corresponding named export to A:
+
+// A.js
+export const A = 42
+export const myA = 43
+export const Something = 44
+A module can only have one default export, but as many named exports as you'd like (zero, one, two, or many). You can import them all together:
+
+// B.js
+import A, { myA, Something } from './A'
+Here, we import the default export as A, and named exports called myA and Something, respectively.
+
+// A.js
+export default 42
+export const myA = 43
+export const Something = 44
+We can also assign them all different names when importing:
+
+// B.js
+import X, { myA as myX, Something as XSomething } from './A'
+The default exports tend to be used for whatever you normally expect to get from the module. The named exports tend to be used for utilities that might be handy, but aren’t always necessary. However it is up to you to choose how to export things: for example, a module might have no default export at all.
+
+----
+
+
+

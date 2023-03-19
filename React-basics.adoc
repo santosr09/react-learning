@@ -1,0 +1,119 @@
+= React - Udemy -JJSR
+
+React is a Javascript library for building interfaces
+React is all about COMPONENTS
+Re-usable and reactive components consisting of HTML and Javascript(and CSS)
+
+=== Why COMPONENTS?
+Reusability - DRY
+Separation of concerns - Don't do too many things in one and the same place(function)
+multiple smaller functions
+
+.React COMPONENTS ARE FUNCTIONS
+
+use {} (curly braces) inside JSX to run basic Javascript expressions; like just pointing at a variable or a constant.
+
+=== DECLARATIVE- APPROACH: 
+Define the desired target state(s) and let React figure about the actual Javascript DOM instructions.
+
+(IMPERATIVE approach: You need to give clear instructions, clear steps by steps what should be done)
+
+React Name starting with Uppercase tells React that this is a Cutom Component
+name starting with lowerCase is for built in HTML elements.
+
+You must only have one root element per return statement
+
+A componenr in React is Just a Javascript function
+
+
+=== PASSING DATA VIA "Props"
+Components can't just use data stored in other components, we can use props(Like HTML attributes)
+
+function Items(props) {
+
+
+CREATE REACT APP
+[source]
+----
+command:
+# npx create-react-app my-app
+----
+
+=== Composition - children props
+
+props.children
+
+_children_ is a reserved word, the value will be the content inside the component
+
+
+== JSX is syntactic sugar
+
+Example of JSX syntax:
+
+[source]
+----
+  return (
+    <div className="expense-date">
+      <div className="expense-date__year">{year}</div>
+----
+
+Without JSX:
+[source]
+----
+return React.createElemnt('div', {}, React.createElement('h2', {} ...
+----
+
+Under the hood JSX is transformed to React.
+
+== USER INTERACTION & STATE
+Making apps Reactive and interactive
+
+Handling Events
+Updating the UI & working with 'state'
+
+React exposes default events which starts with 'on', Ex: onAbort, onClick; In this way we can add an eventListener to that React component.
+
+Just point to the function using the name, not adding parenthesis
+[source]
+----
+<button onClick={clickHandler}>Change tittle</button>
+----
+
+If you add parenthesis _onClick={clickHandler()}_ then Javascript will execute the function when the JSX is parsed. Its parsed when the JSX code is returned
+
+Pointing just by the name, It will not be executed when the JSX is evaluated but when the click occurs, is what we want.
+
+=== Components function and State
+The component function(In React each component is a function) is not call a second time after the initial rendering just because a click occure or a variable changes DOES NOT TRIGGER THIS COMPONENT FUNCTION TO RUN AGAIN.
+
+To tell React that it should run it again we should use the function from React: useState
+*usesState allows to define values as state, where changes to those values should reflect in the component function being called again*
+
+[source]
+----
+// Importing function useState() from React, as a named function ({namedFucntion})
+import { useState } from 'react'
+----
+
+useState is a *React Hook*, all the Hooks must be called only inside of React component functions; they can Not be called outside of these functions. Neither can't be called inside nested functions, just directly inside such component function.
+
+useState requires a DEFAULT VALUE, Ex. _useState(props.title)_
+useState return an Array which the first element is the variable and the second element is a method to set the value of such variable.
+
+We can use destructuring (feature of merdn JS) to store both elemnts from useState in separate variables:
+const [title, setTitle] = useState(props.title);
+
+When we call the setTitle function, will not only update the value of the variable titlle, will also execute the component function again. This tells React that the component should be re-evaluated.
+
+useState registers some state for the component in which it is being called, It registers it for a specific component instance; per component instance basis
+
+React knows that the init state was already assigned when executing the function component for the first time and will not initialize again when reevaluted the component, it will keep the latest value assigned.
+
+React will re-evaluate the component when the state changes.
+
+Using One State instead multiple statesx
+Using Spread operator '...' to copy states.
+
+When you update state that depends on previous state you should set the new state by passing a function. This due to the fact that React schedule the updating state, so you could be working with old states.
+
+

@@ -1,0 +1,69 @@
+
+If you are using a version of firebase that's greater than v8, you will encounter the import error
+
+Attempted import error: 'firebase/app' does not contain a default export (imported as 'firebase').
+
+The same will be true for other firebase imports that we use in this project!
+
+There is an easy fix for this though, firebase includes backward compatibility. All you need to is change your import from firebase/app to firebase/compat/app. The same is true for all our other imports.
+
+
+====================================
+PROBLEM/ERROR:
+yarn : File C:\Users\juan.santos\AppData\Roaming\npm\yarn.ps1 cannot be loaded because running scripts is disabled on this system. For more information, see 
+about_Execution_Policies at https:/go.microsoft.com/fwlink/?LinkID=135170.
+At line:1 char:1
++ yarn start
++ ~~~~
+    + CategoryInfo          : SecurityError: (:) [], PSSecurityException
+
+	
+SOLUTION:
+
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+====================================
+
+PROBLEM/ERROR:
+Uncaught Error: Invalid hook call. Hooks can only be called inside of the body of a function component.
+
+SOLUTION:
+???
+
+====================================
+PROBLEM:
+Warning: Each child in a list should have a unique "key" prop.
+
+SOLUTION:
+{ITEMS.map((item) => (
+          <ExpenseItem
+            key={item.id}
+            title={item.title}
+            amount={item.amount}
+            date={item.date}
+          />
+        ))
+        }
+		
+====================================
+
+PROBLEM:
+Uncaught TypeError: items.map is not a function
+
+CONTEXT:
+const Expenses = (items) => {
+
+  return (
+    <div className="expenses">
+      {items.map((item) => (
+        <ExpenseItem
+		
+SOLUTION:
+I was trying to use the object passed("values") instead the array("items[]") inside such object(values.items)
+
+const Expenses = (values) => {  
+
+  return (
+    <div className="expenses">
+      {values.items.map((item) => (
+        <ExpenseItem
+====================================

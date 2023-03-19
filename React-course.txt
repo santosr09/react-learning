@@ -1,0 +1,423 @@
+https://www.udemy.com/course/complete-react-developer-zero-to-mastery
+
+
+https://github.com/Unosquare-CoE-Java/Juan-Santos-CrownClothing-App/invitations
+
+https://github.com/Unosquare-CoE-Java/Juan-Santos-CrownClothing-App
+
+
+===================================================================
+
+REACT = SPA (Single Page Application)
+
+REACT CONCEPTS
+1 Don´t touch the DOM, I´ll do it (virtual DOM)
+2 Build websites like lego blocks
+3 Uniderectional data flow
+4 UI, the rest is up to you
+
+The Job of React developer
+1 Decide on components
+2 Decide the state and where it lives
+3 What changes when state changes
+
+
+Babel = Translate React JS to legacy JS
+Webpack = Create chunks of JS (A kind of modularization, to optimize the load for the users)
+
+'eject' script allows us to modify babel and webpack behaivor(spit out such files). When you Eject, you could loose all the advantages that create-react-app brings.
+
+React -> Function returning HTML, each function is a component. App is made by many components, some compoenents containing other components.
+
+Good React Developer knows Tell React when rende or reredenr different parts of your app.
+
+************************
+
+https://reactjs.org/docs/introducing-jsx.html
+
+
+JSX = Syntax extension of Javascript = HTML as JS
+
+curly braces syntax:
+You can put any valid JavaScript expression inside the curly braces in JSX.
+
+JSX is an Expression Too
+After compilation, JSX expressions become regular JavaScript function calls and evaluate to JavaScript objects.
+
+Specifying Attributes with JSX
+You may use quotes to specify string literals as attributes:
+  const element = <a href="https://www.reactjs.org"> link </a>;
+
+You may also use curly braces to embed a JavaScript expression in an attribute:
+  const element = <img src={user.avatarUrl}></img>;
+
+Don’t put quotes around curly braces when embedding a JavaScript expression in an attribute. You should either use quotes (for string values) or curly braces (for expressions), but not both in the same attribute.
+
+By default, React DOM escapes any values embedded in JSX before rendering them. 
+
+Babel compiles JSX down to React.createElement() calls.
+
+************************
+
+Functional and Class components, both tell React what to render.
+Class extenbdes from 'Component'
+
+React decides to render or rerender when there is a new object in memory.
+
+setState -> Shallow merge 
+
+STATE:
+State is similar to props, but it is private and fully controlled by the component
+
+Using State Correctly
+There are three things you should know about setState().
+
+  -Do Not Modify State Directly
+  For example, this will not re-render a component:
+  // Wrong
+  this.state.comment = 'Hello';
+  
+  // Correct
+  this.setState({comment: 'Hello'});
+  
+  The only place where you can assign this.state is the constructor.
+
+  --State Updates May Be Asynchronous
+  React may batch multiple setState() calls into a single update for performance.
+
+  Because this.props and this.state may be updated asynchronously, you should not rely on their values for calculating the next state.
+  To fix it, use a second form of setState() that accepts a function rather than an object. That function will receive the previous state as the first argument, and the props at the time the update is applied as the second argument
+  
+  --State Updates are Merged
+  When you call setState(), React merges the object you provide into the current state
+  
+  
+
+Make sure that when you update the state, you're always using the same type of value the object properties.
+
+************************
+
+Resources:
+
+https://jsonplaceholder.typicode.com/users
+
+************************
+
+Mounting is the first time a component gets placed onto the top.
+
+Lifecycle in React
+
+1 Constructor
+2 Render, render determines what to show.
+3 ComponentDidMount
+
+
+every html element is in fact a React component.  This is to bind functionality to the UI
+
+Best practices = immutable objects
+
+You can not return multiple components, you can only return just one parent component containing (optionally) multiple components.
+
+When props changes, the component will be rerendered 
+
+** CSS  **
+CSS applies in entire React app. no matter where the CSS file is being imported, it will applied to the entire app.
+This feature could lead us to a style-clashes issues (solved with CSS-in-JS)
+
+
+Functional components and Classes work with the 3 stages: mounting, updating and unmounting
+
+Functional component does not interact in the same way that classes does(constructor, render(), componentdidMount(), componentDicUpdate() or componentWillUnmount())
+
+
+Functional components takes the form of narrow functions () => {} 
+
+Functions and Side effects.
+
+PURE FUNCTIONS:
+A Pure Function has all the above characteristics. It is a function that produces the same output for the same input. It means it returns the same result when you pass the same arguments. A pure function shouldn't have any side effects to change the expected output.
+
+Hooks = Impure funcitons
+
+useState() HOOK; is backed by an array of type [value, setValue]
+
+React re-run, rerender the ENTIRE Functional component (fucntion), unlike classes where only the 
+
+useEffect() HOOK, takes two arguments: a Callback function, and an array of dependencies(states values or props values).
+The callback function will be triggered everytime the values in dependencies changes.
+
+
+REAL DOM  -   VIRTUAL DOM SNAPSHOT  -  VIRTUAL DOM COPY
+
+In  order to see what gets rendered:
+Developer tools / More tools / Rendering / Paint flashing
+
+
+crwn-clothing
+npx create-react-app crwn-clothing --template cra-template-pwa
+
+npm add node-sass
+
+************************************
+LECTURES:
+https://developer.mozilla.org/en-US/docs/Web/CSS/easing-function
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
+https://unpkg.com/browse/react@18.0.0-rc.0/umd/react.development.js
+https://reactjs.org/docs/higher-order-components.html
+https://create-react-app.dev/docs/adding-images-fonts-and-files/
+
+
+************************************
+
+With React, now the servers does not need to take care on render de view, is only need to focus on sending data, trough API's calls.
+
+************************
+
+ROUTING 
+
+Routing = Page navigation , which view to show based on URL.
+
+react-router-dom
+
+npm add react-router-dom
+
+BrowserRouter = Give us the funcionality that React Routing has.
+
+<Route exact path component={ComponentToRender} />
+
+Navigation in REACT ROUTE => Link and History
+
+3 properties passed as parameters when using Route:
+ - match
+ - history
+ - location
+
+Only get access to them from the first component that is passed to Route.
+
+Avoid Bad pattern: PROP DRILLING (The children component in between does not need the props other than to pass it to the target children )
+ - Solution: 'withRouter'
+
+withRouter = Higher order component = A function that takes a component as argument and return you a modified component.
+
+ - A Higher Order Component (HOC) is just a React Component that wraps another one.
+
+Syntax for withRouter:
+ - export default withRouter(MenuItem);  // Now MenuItem has access to match, history and location (Route properties).
+
+
+Where the state should lives?
+To lift up the state only up to the point that the components needed
+Try to keep state to the lowest possible level, keeping the concern in place to whatever component needs it
+
+Functional Component <> STATEFUL class component
+
+************************
+
+FIREBASE (auth, db)
+
+Open suscriptions = Open messaging system between our application and our firebase app
+This connection is always open as long as our application component is mounted on our job.
+Because it's an open subscription, we also have to close subscriptions when unmount, to avoid memory leaks
+
+React lifecycle method: componentWillUnmount()  -> Here we should call unsubscribeFromAuth()
+
+
+
+   -------
+	NOTE:
+	It's possible you may encounter a google Authorization error that says 403:restricted_client. If you do, here are the instructions to fix it!
+
+	There should be a Learn More link in the popup, clicking that should take you to the Google APIs console that has three tabs under the header named Credentials, OAuth Consent Screen, and Domain Verification. Go to the OAuth Consent Screen tab and update the Application Name to "crwn-clothing" or any other name you're comfortable with (i.e. the name of your project). Click on save at the bottom, then try logging into your verified Google account thereafter.
+
+
+
+	Thanks to Dylan Flohrschutz for the instructions and solution!
+	-------
+
+FIRESTORE DATA MODELS:
+Collection -> Document -> Data
+
+
+Firebase.utils class to control any change in 3rd party library like firebase, a Layer between our app and the dependency library.
+
+A component rerender when props or state change.
+
+If you have multiple components that are all listening to a context, even though they don't use the actual values, (eg. just initializing the value), The fact that you're into the context will cause react to rerun your function.
+But it doesn't mean that it will re render anything into the DOM. the code is getting called.
+
+The fact that the code is getting called could be a performance problem if you have hundreds of components that are all hooked into a context.
+
+
+************************
+
+JS CONCEPTS
+
+async:
+When we use async, then await can be used.
+
+await:
+It pauses the functions execution until what is being awaited is completed.
+
+const myAsyncFunction = async () => {
+  const usersResponse = await fetch('URL_with_info')
+  //The next code will be awaiting until fetch get the result.
+  
+}
+
+
+Promises solve the CALLBACK HELL  - Code extensive, difficutl to read and debug, a lot of callbakc calls
+
+We have to neste a bunch of other funcitons calls inside of each other because each one depends on the result and the return of the previous one.
+
+The promise will be in a pending state until either the resolve or the reject has been called.
+Promise =>  what we want to do with asynchronous events if they succeed or fail.
+
+You only can call then in a RESOLVED PROMISE:
+myPromise.then(value => console.log(value))
+
+
+************************
+
+CSS-in-JS
+
+install styled-components library
+
+yarn add styled-components
+
+
+
+CSS-in-JS -> Randomly generated unique class Name 
+
+INHERITANCE
+Allow us to use inheritance:
+  
+  //Creating a base button
+  export const BaseButton = styled.button`
+  background-color: black;
+  ...
+  
+  //Extendening Base button and inhereting all its properties, and overwrite just requireds
+  export const GoogleSignInButton = styled(BaseButton)
+  background-color: #4285f4;
+  ...
+
+  export const InvertedButton = styled(BaseButton)
+  background-color: white;
+  ...
+
+NESTING  
+Allow us to have nested style:
+  
+  import {
+  BaseButton,
+  GoogleSignInButton,
+  InvertedButton,
+  } from '../button/button.styles';
+
+ export const CartDropdownContainer = styled.div
+  position: absolute;
+  width: 240px;
+  height: 340px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border: 1px solid black;
+  background-color: white;
+  top: 90px;
+  right: 40px;
+  z-index: 5;
+    ${BaseButton},
+    ${GoogleSignInButton},
+    ${InvertedButton} {
+    	margin-top: auto;
+    }
+  `;
+
+
+************************
+
+OBSERVER PATTERN
+
+Observable listener:
+Hook into some kind of stream of events, We're actually able to trigger something based on these changes.
+
+
+Listener:
+next : (nextVal) => {// Do something with val}
+error: (error) => { // Do something with error}
+complete: () => { // Do something when finished}
+
+************************
+
+CONTEXT
+
+PROP DRILLING:
+With components we can pass props down into children, we can pass callbacks from a parent down to a child so that we can get the data up to the parent.
+Wrtie all these props for all the intermediary components that don't even need that data in the first place.
+
+REACT CONTEXT
+Allows us to STORE our data in some external storage placement, and then anyone that needs it can access it from their corresponding place.
+Context is a component that exclusively stores things
+
+
+react Context requires: the context and a Provider 
+
+import { createContext, useState, useEffect } from 'react';
+
+    //as the actual value you want to access
+	export const UserContext = createContext({
+	  setCurrentUser: () => null,
+	  currentUser: null,
+	});
+
+a Provider is the actual component
+Every Context has a Provider and the Provider is the component that will wrap around any other components that need access to the values inside.
+Provider it's going to receive the value.
+The VALUE can be now accessed by any component inside in the component tree(children) wrapped by the provider.
+
+    return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+
+
+When we hook a component(function) to the context. React can re-run the code of a fuction, but that not necessary means that the DOM wil be re-render also, if there are not change in DOM won't be re-render, just the code of the function Hooked to the context.
+
+If you have multiple components that are all listening to a context, even though they don't use the actual values, the fact that you're hooked into the context will cause react to rerun your function.
+
+The fact that the code is getting called could be a performance problem if you have hundreds of components that are all hooked into a context 
+
+
+************************
+
+REDUCERS - REDUX
+
+Reducers -> Pattern for state management 
+Reducers are Object representations of values that receive ACTIONS, actions will update the values inside of the reducer object.
+(Functions that return an object)
+
+CONTEXT:
+Cart Context
+
+useState -> cartItems
+useState -> cartCount
+useState -> cartTotal
+
+REDUCER:
+
+cartItems: []
+cartCount: 0
+cartTotal: 0
+isCartOpen: false
+ 
+ Action
+ { type: String
+   payload: anything}
+
+
+Difference between context and redux, REDUX will always wrap the entire application
+
+Accessibility and flow of data.
+Components drive ACTIONS into REDUCERS
+REDUCERS then drive the corresponding values into the components
+
+REDUX:
+Combines Reducers into one Root Reducer 
+One dispatch Actions
